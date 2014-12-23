@@ -13,7 +13,9 @@ define([
     toSave : function( object ) {
       return '<body>'
       + '<pre style="display:none;">'+ object.md +'</pre>'
-      + '<div style="color:grey;font-size:14px;padding_bottom:20px;"> this is power by md editer </div>'
+      + '<div style="color:grey;font-size:14px;padding_bottom:20px;"> '
+      + 'this is created by md editer, don`t manually edit it '
+      + '</div>'
       + '<div>'+ object.html +'</div>'
       + '</body>';
     },
