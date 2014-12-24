@@ -11,7 +11,11 @@ require([
     if(port){
       port.onDisconnect.removeListener(reconnect);
     }
-    port = chrome.runtime.connect({name: "knockknock"});
+    try{
+      port = chrome.runtime.connect({name: "knockknock"});
+    }catch(e){
+      setTimeout(reconnect, 1e3);
+    }
     port.postMessage({ msg : "init_message"});
     port.onMessage.addListener(function(msg) {
       if (msg.msg == "inited"){
