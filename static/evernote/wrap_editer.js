@@ -6,16 +6,24 @@ require([
             .contentWindow.document.body;
   }
 
-  var port = chrome.runtime.connect({name: "knockknock"});
-  port.postMessage({ msg : "init_message"});
-  port.onMessage.addListener(function(msg) {
-    if (msg.msg == "inited"){
-      console.log('connect success');
+  var port;
+  function reconnect () {
+    if(port){
+      port.onDisconnect.removeListener(reconnect);
     }
-    else if (msg.msg == "edited"){
-      get_container().innerHTML = msg.html;
-    }
-  });
+    port = chrome.runtime.connect({name: "knockknock"});
+    port.postMessage({ msg : "init_message"});
+    port.onMessage.addListener(function(msg) {
+      if (msg.msg == "inited"){
+        console.log('connect success');
+      }
+      else if (msg.msg == "edited"){
+        get_container().innerHTML = msg.html;
+      }
+    });
+    port.onDisconnect.addListener(reconnect);
+  }
+  reconnect();
 
   $('<button>编辑</button>')
     .appendTo('body')
