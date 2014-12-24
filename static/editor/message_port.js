@@ -7,6 +7,7 @@ function reconnect () {
     port = chrome.runtime.connect({name: "editer"});
   }catch(e){
     setTimeout(reconnect, 1e3);
+    return;
   }
   port.postMessage({ msg : "init_message"});
   port.onMessage.addListener(function(msg) {
