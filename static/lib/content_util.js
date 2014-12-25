@@ -3,7 +3,6 @@ define([
 ],function(
 
 ){
-
   var html_entity_map = {
     gt  : '>',
     lt  : '<',
@@ -20,7 +19,8 @@ define([
       + '</body>';
     },
     toEdit : function( html ) {
-      return ( $(html).filter('pre').eq(0).html() || '')
+      html = $(html);
+      return ( html.filter('pre').eq(0).html() || html.text())
                 .replace(/\&([\w\d]+)\;/g,function($,$1) {
                   return html_entity_map[$1];
                 });
